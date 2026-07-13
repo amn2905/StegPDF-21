@@ -47,10 +47,6 @@ StegPDF-21/
 ├── stego_generation.py
 ├── README.md
 ├── LICENSE
-└── output/
-    ├── features_25_FINAL.csv
-    ├── extraction.log
-    └── progress.txt
 ```
 
 ---
