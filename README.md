@@ -1,115 +1,191 @@
 # StegPDF-21: A Benchmark Dataset for PDF Steganography Detection
 
-## Overview
-
-StegPDF-21 is a benchmark dataset designed for machine learning-based PDF steganography detection. The dataset contains both clean and steganographically modified PDF documents generated using multiple hiding techniques. It is intended to support research in PDF steganalysis, digital forensics, document security, and explainable artificial intelligence.
-
-The dataset provides engineered structural, metadata, textual, and image-based features extracted from PDF documents for reproducible machine learning experiments.
+<p align="center">
+  <img src="https://img.shields.io/badge/Dataset-Steganography-blue" />
+  <img src="https://img.shields.io/badge/PDF-Digital%20Forensics-red" />
+  <img src="https://img.shields.io/badge/Machine%20Learning-Benchmark-success" />
+  <img src="https://img.shields.io/badge/License-Apache%202.0-green" />
+</p>
 
 ---
 
-## Dataset Statistics
+## Overview
+
+**StegPDF-21** is a benchmark dataset developed for machine learning-based **PDF steganography detection**. The dataset consists of clean and steganographic PDF documents generated using multiple information-hiding techniques and is intended to support research in:
+
+- PDF Steganalysis
+- Digital Forensics
+- Cybersecurity
+- Document Security
+- Explainable Artificial Intelligence (XAI)
+- Machine Learning Benchmarking
+
+Unlike image and audio steganography, publicly available benchmark datasets for **PDF steganography** are extremely limited. StegPDF-21 addresses this gap by providing engineered feature representations extracted from PDF document structures.
+
+---
+
+# Dataset Statistics
 
 | Property | Value |
-|----------|------:|
+|-----------|------:|
+| Dataset Name | StegPDF-21 |
 | Total Samples | 19,372 |
 | Clean PDFs | 9,621 |
 | Stego PDFs | 9,751 |
-| Total Features | 21 |
-| Classes | Binary (Clean / Stego) |
+| Engineered Features | 25 |
+| Classes | 2 |
+| Labels | Clean (0), Stego (1) |
 
 ---
 
-## Repository Structure
+# Repository Structure
 
 ```
 StegPDF-21/
 │
-├── extraction.py              # Feature extraction script
-├── stego_generation.py        # PDF steganography generation
+├── extraction.py
+├── stego_generation.py
+├── README.md
 ├── LICENSE
-└── README.md
+└── output/
+    ├── features_25_FINAL.csv
+    ├── extraction.log
+    └── progress.txt
 ```
 
 ---
 
-## Steganographic Techniques
+# Steganographic Techniques
 
-The dataset includes steganographic PDFs generated using the following techniques:
+Stego PDF documents were generated using multiple embedding strategies.
 
-1. Metadata Hiding
-2. Invisible (White) Text Insertion
-3. Text Spacing Manipulation
-4. Zero-Width Unicode Characters
-5. PDF Comment Injection
-6. Unused PDF Object Embedding
-7. Stream Padding
-8. Embedded Image Steganography
+- Metadata Hiding
+- Invisible (White) Text Insertion
+- Text Spacing Manipulation
+- Zero-Width Unicode Characters
+- PDF Comment Injection
+- Unused PDF Objects
+- Stream Padding
+- Embedded Image Steganography
 
 ---
 
-## Extracted Features
+# Engineered Features
 
-The dataset contains 21 engineered features representing multiple PDF characteristics.
+The dataset contains **25 engineered features** extracted from each PDF document.
 
-### Structural Features
+## Structural Features
 
 - File Size
 - Page Count
 - Object Count
 - Average Objects per Page
+- Orphan Object Count
 - Orphan Object Depth
-- Cross-Reference Gap Score
+- Unused Object Ratio
+- Cross Reference Gap Score
 - Structural Complexity Score
 - Page Object Distribution Entropy
 
-### Metadata Features
+---
+
+## Metadata Features
 
 - Metadata Length
 - Metadata Key Count
+- Custom Metadata Key Count
 - Metadata Value Entropy
 
-### Text-Based Features
+---
+
+## Text Features
 
 - Zero Width Unicode Density
 - Invisible Text Ratio
 - Character Spacing Deviation
 - Whitespace Run Variance
-- Comment Length Ratio
 - Text-to-Nontext Ratio
 
-### Image-Based Features
+---
 
-- Image Count
-- Image Entropy Delta
-- Image Size Anomaly
+## Comment Features
 
-### Stream Feature
+- Comment Object Count
+- Comment Length Ratio
+
+---
+
+## Stream Features
 
 - Padding Byte Ratio
 
 ---
 
-## Machine Learning Benchmark
+## Image Features
 
-The dataset was evaluated using several supervised machine learning classifiers.
+- Image Count
+- Image Entropy Delta
+- Image Size Anomaly
 
-| Model | Accuracy |
-|--------|---------:|
-| Logistic Regression | 64.87% |
-| Gaussian Naïve Bayes | 60.24% |
-| Random Forest | 79.78% |
-| XGBoost | **81.09%** |
-| LightGBM | 80.83% |
+---
 
-Evaluation Protocol:
+# Feature Extraction
+
+The repository provides an automated feature extraction pipeline.
+
+```
+PDF Document
+      │
+      ▼
+PDF Parsing
+      │
+      ▼
+Metadata Analysis
+      │
+      ▼
+Structure Analysis
+      │
+      ▼
+Text Analysis
+      │
+      ▼
+Image Analysis
+      │
+      ▼
+Feature Engineering
+      │
+      ▼
+CSV Dataset
+```
+
+---
+
+# Machine Learning Benchmark
+
+The dataset was evaluated using representative machine learning classifiers.
+
+| Classifier | Accuracy | Precision | Recall | F1-score | ROC-AUC |
+|------------|---------:|----------:|--------:|---------:|--------:|
+| Logistic Regression | 0.6487 | 0.6459 | 0.6688 | 0.6572 | 0.7111 |
+| Gaussian Naïve Bayes | 0.6024 | 0.6838 | 0.3910 | 0.4975 | 0.6901 |
+| Random Forest | 0.7978 | 0.8137 | 0.7761 | 0.7945 | 0.8799 |
+| XGBoost | **0.8109** | 0.8290 | **0.7867** | **0.8073** | 0.8900 |
+| LightGBM | 0.8083 | **0.8302** | 0.7785 | 0.8035 | **0.8922** |
+| Support Vector Machine | *(Coming Soon)* | | | | |
+
+---
+
+# Evaluation Protocol
+
+The benchmark experiments followed a standardized evaluation protocol.
 
 - Stratified 70:30 Train-Test Split
 - Stratified 5-Fold Cross Validation
 - Optuna Hyperparameter Optimization
 - Median Pruner
+- Independent Test Evaluation
 
-Evaluation Metrics:
+Performance metrics include
 
 - Accuracy
 - Precision
@@ -119,20 +195,20 @@ Evaluation Metrics:
 
 ---
 
-## Requirements
+# Requirements
 
-Python 3.10+
+Python ≥ 3.10
 
-Required libraries
+Required packages
 
 ```
 numpy
 pandas
-PyMuPDF
 PyPDF2
+pikepdf
 scikit-learn
-lightgbm
 xgboost
+lightgbm
 optuna
 joblib
 matplotlib
@@ -147,40 +223,51 @@ pip install -r requirements.txt
 
 ---
 
-## Usage
+# Usage
 
-### Generate Stego PDFs
+## Generate Stego PDFs
 
 ```bash
 python stego_generation.py
 ```
 
-### Extract Features
+---
+
+## Extract Features
 
 ```bash
 python extraction.py
 ```
 
+The extracted features are automatically stored as
+
+```
+output/features_25_FINAL.csv
+```
+
 ---
 
-## Applications
+# Applications
 
-- PDF Steganalysis
+StegPDF-21 can be used for
+
+- PDF Steganography Detection
+- Machine Learning Research
 - Digital Forensics
-- Machine Learning
+- Cybersecurity Research
 - Explainable AI
-- Cybersecurity
-- Document Security
-- Academic Benchmarking
+- Benchmark Dataset Evaluation
+- Feature Selection
+- Classification Research
 
 ---
 
-## Citation
+# Citation
 
 If you use this dataset in your research, please cite:
 
 ```
-Author(s).
+Amaan Hamid et al.
 
 StegPDF-21: A Benchmark Dataset for PDF Steganography Detection.
 
@@ -191,20 +278,34 @@ Data in Brief.
 
 ---
 
-## License
+# License
 
-This project is distributed under the Apache 2.0 License.
+This project is licensed under the **Apache License 2.0**.
 
 See the LICENSE file for details.
 
 ---
 
-## Contact
+# Author
 
 **Mohd. Amaan Hamid**
 
-Department of Cyber Security
+M.Sc. Cyber Security Researcher
 
-Email: hamidamaan3@gmail.com
+Research Interests
 
-GitHub: https://github.com/amn2905
+- PDF Steganography
+- Digital Forensics
+- Machine Learning
+- Explainable AI
+- Cybersecurity
+
+GitHub
+
+https://github.com/amn2905
+
+---
+
+# Acknowledgements
+
+This dataset was developed to facilitate reproducible research in PDF steganography detection and digital document forensics by providing a standardized benchmark for evaluating machine learning models.
